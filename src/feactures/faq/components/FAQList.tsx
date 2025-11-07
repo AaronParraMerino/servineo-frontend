@@ -5,7 +5,7 @@ import React from 'react';
 import { FAQ } from '../types/faq.types';
 import { FAQItem } from './FAQItem';
 import { FAQSkeleton } from './FAQSkeleton';
-import styles from '../styles/faq.module.css';
+// Eliminada: import styles from '../styles/faq.module.css';
 
 interface FAQListProps {
   faqs: FAQ[];
@@ -18,11 +18,12 @@ export const FAQList: React.FC<FAQListProps> = ({ faqs, loading }) => {
   }
 
   if (faqs.length === 0) {
+    // Estilo de Estado Vacío
     return (
-      <div className={styles.emptyState}>
-        <div className={styles.emptyIcon}>🔍</div>
-        <h3 className={styles.emptyTitle}>No se encontraron resultados</h3>
-        <p className={styles.emptyMessage}>
+      <div className="text-center p-12 bg-gray-50 border border-gray-200 rounded-lg mt-8">
+        <div className="text-5xl mb-4">🔍</div>
+        <h3 className="text-xl font-semibold text-gray-800 mb-2">No se encontraron resultados</h3>
+        <p className="text-gray-600">
           Intenta con otras palabras clave o navega por todas las preguntas frecuentes.
         </p>
       </div>
@@ -30,7 +31,7 @@ export const FAQList: React.FC<FAQListProps> = ({ faqs, loading }) => {
   }
 
   return (
-    <div className={styles.faqList}>
+    <div className="space-y-4">
       {faqs.map((faq) => (
         <FAQItem key={faq._id} faq={faq} />
       ))}
