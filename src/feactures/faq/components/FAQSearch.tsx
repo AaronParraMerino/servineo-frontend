@@ -49,6 +49,7 @@ export const FAQSearch: React.FC<FAQSearchProps> = ({ onSearch }) => {
           focus:ring-blue-500 
           transition 
           duration-150
+          text-black
         "
         aria-label="Buscar preguntas frecuentes"
       />
