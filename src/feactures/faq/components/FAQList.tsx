@@ -31,7 +31,7 @@ export const FAQList: React.FC<FAQListProps> = ({ faqs, loading }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-h-72 overflow-y-auto pr-2">
       {faqs.map((faq) => (
         <FAQItem key={faq._id} faq={faq} />
       ))}

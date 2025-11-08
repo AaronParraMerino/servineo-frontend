@@ -52,13 +52,7 @@ export const FAQPage: React.FC = () => {
           </div>
         )}
 
-        {/* Contador de Resultados (equivalente a styles.resultsCount) */}
-        {!loading && faqs.length > 0 && (
-          <div className="text-sm text-gray-500 mb-4">
-            Mostrando **{faqs.length}** {faqs.length === 1 ? 'resultado' : 'resultados'}
-          </div>
-        )}
-
+        
         <FAQList faqs={faqs} loading={loading} />
 
         <FAQContact />
