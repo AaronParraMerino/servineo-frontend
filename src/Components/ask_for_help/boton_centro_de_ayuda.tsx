@@ -12,7 +12,8 @@ const BotonCentroAyuda = () => {
 
     const handleHelpCenterClick = () => {
         if (navigator.onLine) {
-            router.push('/centro_de_ayuda'); 
+            router.push('/ask.for-help/centro_de_ayuda/page.tsx'); // ✅ BIEN: Es la ruta URL
+ 
         } else {
             setShowError(true);
         }
