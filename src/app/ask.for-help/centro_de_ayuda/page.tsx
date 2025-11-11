@@ -1,9 +1,10 @@
-"use client"; // Marca el componente como un componente de cliente en Next.js
+// servineo-frontend/src/app/ask-for-help/centro_de_ayuda/page.tsx
+"use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation'; // ⬅️ IMPORTAR useRouter
 import axios from 'axios';
-// Importamos los iconos de lucide-react
-import { Home, User, Search, Star, HelpCircle } from 'lucide-react'; 
+import { Home, User, Search, Star, HelpCircle } from 'lucide-react';
 
 // --- 1. Definición de Tipos y Constantes ---
 
@@ -18,54 +19,64 @@ interface SuggestionResponse {
     results: Suggestion[];
 }
 
-// Declaración para el entorno de Next.js
 declare const process: any;
 
 const getApiUrl = (endpoint: string) => {
-    // CRÍTICO: Se corrigió la sintaxis de las plantillas literales (template literals)
     const apiPort = process.env.NEXT_PUBLIC_API_PORT || '3001'; 
     const isDevelopment = process.env.NODE_ENV === 'development';
 
     const baseUrl = isDevelopment 
-        ? `http://localhost:${apiPort}/api` // Uso correcto de acentos graves
-        : `https://tu-dominio-backend.com/api`; // Uso correcto de acentos graves
+        ? `http://localhost:${apiPort}/api`
+        : `https://tu-dominio-backend.com/api`;
 
     return `${baseUrl}${endpoint}`;
 };
 
-
 // --- 2. Componente Principal del Centro de Ayuda ---
 const CentroDeAyuda: React.FC = () => {
+    const router = useRouter(); // ⬅️ USAR useRouter de Next.js
     
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     
-    // Función para mostrar mensajes temporales (No necesita ser useCallback)
     const showMessage = (msg: string) => {
         setMessage(msg);
-        // Usa una referencia al timeout para poder limpiarlo si la función se llama varias veces
         const timeoutId = setTimeout(() => setMessage(''), 5000);
-        return () => clearTimeout(timeoutId); // Función de limpieza
+        return () => clearTimeout(timeoutId);
     };
 
-    // Funcionalidades de Redirección (Simulación)
+    // ⬇️ ACTUALIZAR handleRedirect para usar router.push()
     const handleRedirect = useCallback((target: string, url: string | null = null) => {
-        const finalUrl = url || `/${target.toLowerCase().replace(/\s/g, '-')}`;
-        showMessage(`Redirigiendo a: ${target} (URL: ${finalUrl})`);
-        console.log(`[REDIRECCIÓN] Navegando a: ${finalUrl}`);
-        // En una app real de Next.js, usarías: useRouter().push(finalUrl)
-    }, []); // Dependencia vacía
+        let finalUrl: string;
+        
+        // Mapeo de rutas específicas
+        if (target === 'Preguntas Frecuentes sobre Servineo' || target === 'Preguntas Frecuentes (FAQ)') {
+            finalUrl = '/ask.for-help/preguntas-frecuentes'; // ⬅️ Ruta correcta
+        } else if (target === 'Publicaciones Populares') {
+            finalUrl = '/ask.for-help/publicaciones-populares'; // Ajusta según tu estructura
+        } else if (target === 'Home') {
+            finalUrl = '/';
+        } else if (target === 'Perfil') {
+            finalUrl = '/perfil'; // Ajusta según tu estructura
+        } else if (url) {
+            finalUrl = url;
+        } else {
+            finalUrl = `/${target.toLowerCase().replace(/\s/g, '-')}`;
+        }
 
-    // Memoizar las URLs de la API, ya que no cambian.
+        console.log(`[REDIRECCIÓN] Navegando a: ${finalUrl}`);
+        router.push(finalUrl); // ⬅️ Usar router.push() en lugar de simulación
+    }, [router]);
+
     const API_URL_SUGGEST = useMemo(() => getApiUrl('/suggest'), []); 
     const API_URL_SEARCH = useMemo(() => getApiUrl('/search'), []); 
     
     const handleSuggestionClick = useCallback((suggestion: Suggestion) => {
         handleRedirect(suggestion.title, suggestion.url);
         setSearchTerm(suggestion.title);
-        setSuggestions([]); // Cierra el dropdown
+        setSuggestions([]);
     }, [handleRedirect]);
     
     const handleSearchSubmit = useCallback((event?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLInputElement>) => {
@@ -73,27 +84,19 @@ const CentroDeAyuda: React.FC = () => {
         
         const query = searchTerm.trim();
         if (query.length > 0) {
-            // Cierra las sugerencias
-            setSuggestions([]); 
-
-            // Simulación de búsqueda principal
-            showMessage(`Búsqueda principal ejecutada para: "${query}". (Endpoint real: ${API_URL_SEARCH})`);
+            setSuggestions([]);
+            showMessage(`Búsqueda principal ejecutada para: "${query}"`);
             handleRedirect(`Resultados de Búsqueda para "${query}"`);
-
         } else {
             showMessage('Por favor, ingresa un término de búsqueda.');
         }
     }, [searchTerm, handleRedirect, API_URL_SEARCH]);
 
-
-    // Lógica para realizar la llamada a la API de sugerencias con debounce
     useEffect(() => {
         const query = searchTerm.trim();
         
-        // Criterio para NO ejecutar la búsqueda
         if (query.length < 2) {
             setSuggestions([]);
-            // Si estaba cargando, lo reseteamos inmediatamente
             if(isLoading) setIsLoading(false); 
             return;
         }
@@ -104,11 +107,8 @@ const CentroDeAyuda: React.FC = () => {
             
             try {
                 const response = await axios.get<SuggestionResponse>(`${API_URL_SUGGEST}?q=${query}`);
-                
                 const receivedSuggestions = response.data.results || [];
 
-                // Solo actualizamos si el término de búsqueda sigue siendo el mismo 
-                // para evitar race conditions, aunque el cleanup ya ayuda mucho.
                 if (searchTerm.trim() === query) {
                     setSuggestions(receivedSuggestions);
                     if (receivedSuggestions.length > 0) {
@@ -119,23 +119,20 @@ const CentroDeAyuda: React.FC = () => {
                 console.error('[EFFECT - ERROR] Error al obtener sugerencias (Axios):', error);
                 setSuggestions([]);
             } finally {
-                // Siempre quitamos el loading al final
                 setIsLoading(false);
             }
-        }, 300); // 300ms de debounce
+        }, 300);
 
-        // Cleanup: Cancela el timeout anterior si el searchTerm cambia de nuevo antes de 300ms
         return () => {
             clearTimeout(handler);
         };
-    }, [searchTerm, API_URL_SUGGEST, isLoading]); // Dependencia: Se ejecuta cada vez que searchTerm cambia
-
+    }, [searchTerm, API_URL_SUGGEST, isLoading]);
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 font-sans antialiased flex justify-center items-start">
             <div className="w-full max-w-xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden mt-8 md:mt-12">
                 
-                {/* 1. Encabezado / Barra de Navegación Superior */}
+                {/* Header */}
                 <header className="flex items-center justify-between p-4 bg-blue-700 text-white shadow-lg">
                     <div 
                         className="cursor-pointer p-1 rounded-full hover:bg-blue-800 transition"
@@ -154,13 +151,12 @@ const CentroDeAyuda: React.FC = () => {
                     </div>
                 </header>
 
-                {/* 2. Sección de Búsqueda y Resultados */}
+                {/* Búsqueda */}
                 <section className="p-6 relative">
                     <div className="relative">
-                        {/* Ícono de Búsqueda / Loader */}
                         <button 
                             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 p-1 rounded-full hover:bg-gray-200 transition"
-                            onClick={() => handleSearchSubmit()} // Ejecuta la búsqueda principal al hacer clic
+                            onClick={() => handleSearchSubmit()}
                             aria-label="Ejecutar búsqueda"
                         >
                             {isLoading ? (
@@ -173,7 +169,6 @@ const CentroDeAyuda: React.FC = () => {
                             )}
                         </button>
                         
-                        {/* Campo de Input */}
                         <input 
                             type="text" 
                             placeholder="Buscar ayuda en Servineo..." 
@@ -187,8 +182,7 @@ const CentroDeAyuda: React.FC = () => {
                         />
                     </div>
                     
-                    {/* 3. Dropdown de Sugerencias (Autocomplete) */}
-                    {/* Usamos un div que anula el padding del padre para ser de borde a borde y se ajusta al width-full */}
+                    {/* Dropdown de Sugerencias */}
                     {searchTerm.length >= 2 && suggestions.length > 0 && (
                         <div className="absolute z-10 w-[calc(100%-3rem)] mt-2 left-6 right-6"> 
                             <ul className="bg-white border border-gray-200 rounded-xl shadow-xl max-h-60 overflow-y-auto divide-y divide-gray-100">
@@ -214,13 +208,12 @@ const CentroDeAyuda: React.FC = () => {
                     </div>
                 )}
                 
-                {/* 4. Contenido Principal: Opciones de Ayuda */}
+                {/* Opciones de Ayuda */}
                 <main className="p-6 pt-0">
-                    {/* Solo mostramos las tarjetas si no hay búsqueda activa ni sugerencias visibles */}
                     {(searchTerm.length < 2 && suggestions.length === 0) && (
                         <div className="space-y-4">
                             
-                            {/* Tarjeta 1: Publicaciones Populares */}
+                            {/* Publicaciones Populares */}
                             <button 
                                 className="w-full flex items-center p-4 bg-white border border-gray-200 rounded-xl shadow-md transition hover:shadow-lg hover:scale-[1.01] duration-200 text-left hover:bg-blue-50" 
                                 onClick={() => handleRedirect('Publicaciones Populares')}
@@ -234,7 +227,7 @@ const CentroDeAyuda: React.FC = () => {
                                 </div>
                             </button>
 
-                            {/* Tarjeta 2: Preguntas Frecuentes */}
+                            {/* ⬇️ PREGUNTAS FRECUENTES - ACTUALIZADO */}
                             <button 
                                 className="w-full flex items-center p-4 bg-white border border-gray-200 rounded-xl shadow-md transition hover:shadow-lg hover:scale-[1.01] duration-200 text-left hover:bg-blue-50" 
                                 onClick={() => handleRedirect('Preguntas Frecuentes sobre Servineo')}

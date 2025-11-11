@@ -6,7 +6,7 @@ import ErrorMessage from './ErrorMessage';
 const BotonWhatsapp = () => {
     const [showError, setShowError] = useState(false);
 
-    const numerowhapi = "59179780871"; 
+    const numerowhapi = "59178194834"; 
     const mensaje = ""; 
     const encodedMessage = encodeURIComponent(mensaje);
     const whatsappUrl = `https://wa.me/${numerowhapi}?text=${encodedMessage}`;
