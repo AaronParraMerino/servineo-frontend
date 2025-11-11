@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { FAQBreadcrumb } from '../components/FAQBreadcrumb';
+//import { FAQBreadcrumb } from '../components/FAQBreadcrumb';
 import { FAQSearch } from '../components/FAQSearch';
 import { FAQCategoryFilter } from '../components/FAQCategoryFilter';
 import { FAQList } from '../components/FAQList';
@@ -27,7 +27,7 @@ export const FAQPage: React.FC = () => {
       {/* Contenedor central (equivalente a styles.faqContainer) */}
       <div className="container mx-auto p-4 max-w-4xl bg-white shadow-xl rounded-xl">
         
-        <FAQBreadcrumb />
+  
 
         {/* Encabezado (equivalente a styles.faqHeader, styles.faqTitle, styles.faqSubtitle) */}
         <div className="mb-8">
