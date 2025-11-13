@@ -33,7 +33,7 @@ export interface UseFAQReturn {
   loading: boolean;
   error: string | null;
   selectedCategory: FAQCategoria | 'all';  // ⬅️ AGREGAR
-  searchFAQs: (query: string) => Promise<void>;
+  searchFAQs: (query: string) => void;
   fetchFAQs: () => Promise<void>;
   filterByCategory: (category: FAQCategoria | 'all') => void;  // ⬅️ AGREGAR
 }
