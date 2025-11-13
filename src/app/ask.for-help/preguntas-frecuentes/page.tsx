@@ -61,12 +61,7 @@ export default function PreguntasFrecuentesPage() {
             </div>
           )}
 
-          {/* Results Count */}
-          {!loading && faqs.length > 0 && (
-            <p className="text-sm text-gray-500 mb-4">
-              Mostrando {faqs.length} {faqs.length === 1 ? 'resultado' : 'resultados'}
-            </p>
-          )}
+          
 
           <FAQList faqs={faqs} loading={loading} />
 
