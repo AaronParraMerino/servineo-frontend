@@ -1,4 +1,3 @@
-// servineo-frontend/src/app/ask-for-help/centro_de_ayuda/page.tsx
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -19,7 +18,7 @@ interface SuggestionResponse {
     results: Suggestion[];
 }
 
-declare const process: any;
+//declare const process: any;
 
 const getApiUrl = (endpoint: string) => {
     const apiPort = process.env.NEXT_PUBLIC_API_PORT || '3001'; 
@@ -71,7 +70,7 @@ const CentroDeAyuda: React.FC = () => {
     }, [router]);
 
     const API_URL_SUGGEST = useMemo(() => getApiUrl('/suggest'), []); 
-    const API_URL_SEARCH = useMemo(() => getApiUrl('/search'), []); 
+    //const API_URL_SEARCH = useMemo(() => getApiUrl('/search'), []); 
     
     const handleSuggestionClick = useCallback((suggestion: Suggestion) => {
         handleRedirect(suggestion.title, suggestion.url);
@@ -87,10 +86,11 @@ const CentroDeAyuda: React.FC = () => {
             setSuggestions([]);
             showMessage(`Búsqueda principal ejecutada para: "${query}"`);
             handleRedirect(`Resultados de Búsqueda para "${query}"`);
-        } else {
+    
+         } else {
             showMessage('Por favor, ingresa un término de búsqueda.');
         }
-    }, [searchTerm, handleRedirect, API_URL_SEARCH]);
+    }, [searchTerm, handleRedirect]);
 
     useEffect(() => {
         const query = searchTerm.trim();
