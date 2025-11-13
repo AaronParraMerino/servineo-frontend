@@ -28,7 +28,7 @@ const sizeClasses: Record<ModalSize, string> = {
   md: "max-w-md",
   lg: "max-w-lg",
   xl: "max-w-2xl",
-  full: "w-screen h-screen max-w-none",
+  full: "w-full h-screen max-w-none",
 }
 
 function useLockBodyScroll(locked: boolean) {
