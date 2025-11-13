@@ -1,5 +1,5 @@
 // frontend/src/features/faq/services/faq.service.ts
-import { API_CONFIG } from '../../config/api.config';
+import { API_CONFIG } from './api.config';
 import { FAQ, FAQResponse } from './faq.types';
 
 export class FAQService {
