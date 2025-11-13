@@ -1,25 +1,23 @@
-// servineo-frontend/src/app/ask.for-help/preguntas-frecuentes/page.tsx
 'use client';
 
 import React from 'react';
-//import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FAQSearch } from '@/Components/ask_for_help/FAQSearch';
 import { FAQCategoryFilter } from '@/Components/ask_for_help/FAQCategoryFilter';
 import { FAQList } from '@/Components/ask_for_help/FAQList';
 import { FAQContact } from '@/Components/ask_for_help/FAQContact';
 import { useFAQ } from '@/Components/ask_for_help/useFAQ';
 
-// ⬇️ CAMBIAR: export const FAQPage → export default function
 export default function PreguntasFrecuentesPage() {
-  //const router = useRouter();
-  
-  const { 
-    faqs, 
-    loading, 
-    error, 
+  const router = useRouter();
+
+  const {
+    faqs,
+    loading,
+    error,
     selectedCategory,
-    searchFAQs, 
-    filterByCategory 
+    searchFAQs,
+    filterByCategory
   } = useFAQ();
 
   return (
@@ -27,16 +25,27 @@ export default function PreguntasFrecuentesPage() {
       <div className="container mx-auto px-4 max-w-5xl">
 
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Preguntas Frecuentes</h1>
-          <p className="text-gray-600 text-lg">
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-8 relative">
+
+          {/* 🔙 Icono de volver atrás */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-6 left-6 text-2xl text-gray-600 hover:text-gray-800 transition"
+            aria-label="Volver atrás"
+          >
+            ←
+          </button>
+
+          <h1 className="text-4xl font-bold text-gray-900 mb-3 text-center">
+            Preguntas Frecuentes
+          </h1>
+          <p className="text-gray-600 text-lg text-center">
             Encuentra respuestas rápidas a las dudas más comunes sobre Servineo
           </p>
         </div>
 
         {/* Content */}
         <div className="bg-white rounded-xl shadow-lg p-8">
-          
           <FAQSearch onSearch={searchFAQs} />
 
           <FAQCategoryFilter

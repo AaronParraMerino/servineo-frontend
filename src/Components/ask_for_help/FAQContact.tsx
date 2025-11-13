@@ -1,4 +1,4 @@
-// frontend/src/features/faq/components/FAQContact.tsx
+// frontend/src/components/ask_for_help/FAQContact.tsx
 'use client';
 
 import React from 'react';
@@ -9,7 +9,7 @@ export const FAQContact: React.FC = () => {
   const router = useRouter();
 
   const handleContactClick = () => {
-    router.push('/ask-for-help/contact');
+    router.push('/ask.for-help/contact');
   };
 
   return (

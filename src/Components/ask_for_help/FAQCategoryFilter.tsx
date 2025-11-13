@@ -1,4 +1,4 @@
-// frontend/src/features/faq/components/FAQCategoryFilter.tsx
+// frontend/src/components/ask_for_help/FAQCategoryFilter.tsx
 'use client';
 
 import React from 'react';

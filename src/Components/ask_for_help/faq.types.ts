@@ -1,4 +1,4 @@
-// frontend/src/features/faq/types/faq.types.ts
+// frontend/src/components/ask_for_help/faq.types.ts
 
 export enum FAQCategoria {
   PROBLEMAS = 'problemas',

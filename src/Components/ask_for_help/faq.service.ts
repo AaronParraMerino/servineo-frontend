@@ -1,4 +1,4 @@
-// frontend/src/features/faq/services/faq.service.ts
+// frontend/src/components/ask_for_help/faq.service.ts
 import { API_CONFIG } from './api.config';
 import { FAQ, FAQResponse } from './faq.types';
 

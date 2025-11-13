@@ -1,4 +1,4 @@
-// frontend/src/config/api.config.ts
+// frontend/src/components/ask_for_help/api.config.ts
 export const API_CONFIG = {
   BASE_URL: 'http://localhost:5000',
   ENDPOINTS: {
