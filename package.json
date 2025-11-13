@@ -16,6 +16,7 @@
     "@types/redux-logger": "^3.0.13",
     "axios": "^1.13.2",
     "cn": "^0.1.1",
+    "fuse.js": "^7.1.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.546.0",
     "next": "^15.5.4",
