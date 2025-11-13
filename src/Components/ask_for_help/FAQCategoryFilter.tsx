@@ -27,15 +27,15 @@ export const FAQCategoryFilter: React.FC<FAQCategoryFilterProps> = ({
       {categories.map((category) => {
         const isActive = selectedCategory === category.value;
         const buttonClasses = isActive
-          ? 'border-blue-600 text-blue-600'
-          : 'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-600';
+          ? 'border-primary text-primary font-bold'
+          : 'border-transparent text-neutral-text hover:text-primary hover:border-primary font-semibold';
 
         return (
           <button
             key={category.value}
             onClick={() => onCategoryChange(category.value as FAQCategoria | 'all')}
             className={`
-              px-4 py-2 text-sm font-medium border-b-2 
+              px-4 py-2 text-base border-b-2
               flex items-center space-x-2 transition duration-150 ease-in-out
               ${buttonClasses}
             `}
