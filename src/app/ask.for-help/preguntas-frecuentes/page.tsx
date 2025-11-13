@@ -2,8 +2,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-import { Home, ChevronRight } from 'lucide-react';
+//import { useRouter } from 'next/navigation';
 import { FAQSearch } from '@/Components/ask_for_help/FAQSearch';
 import { FAQCategoryFilter } from '@/Components/ask_for_help/FAQCategoryFilter';
 import { FAQList } from '@/Components/ask_for_help/FAQList';
@@ -12,7 +11,7 @@ import { useFAQ } from '@/Components/ask_for_help/useFAQ';
 
 // ⬇️ CAMBIAR: export const FAQPage → export default function
 export default function PreguntasFrecuentesPage() {
-  const router = useRouter();
+  //const router = useRouter();
   
   const { 
     faqs, 
