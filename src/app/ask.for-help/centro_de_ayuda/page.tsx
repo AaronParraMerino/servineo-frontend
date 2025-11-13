@@ -86,7 +86,8 @@ const CentroDeAyuda: React.FC = () => {
             setSuggestions([]);
             showMessage(`Búsqueda principal ejecutada para: "${query}"`);
             handleRedirect(`Resultados de Búsqueda para "${query}"`);
-        } else {
+    
+         } else {
             showMessage('Por favor, ingresa un término de búsqueda.');
         }
     }, [searchTerm, handleRedirect]);
