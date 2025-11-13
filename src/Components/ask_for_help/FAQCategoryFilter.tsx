@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { FAQCategoria } from '../types/faq.types';
+import { FAQCategoria } from './faq.types';
 // Eliminada: import styles from '../styles/faq.module.css';
 
 interface FAQCategoryFilterProps {
@@ -11,11 +11,11 @@ interface FAQCategoryFilterProps {
 }
 
 const categories = [
-  { value: 'all', label: 'Todas', icon: '📝' },
-  { value: FAQCategoria.PROBLEMAS, label: 'Problemas', icon: '🔨' },
-  { value: FAQCategoria.SERVICIOS, label: 'Servicios', icon: '⚡' },
-  { value: FAQCategoria.PAGOS, label: 'Pagos', icon: '💳' },
-  { value: FAQCategoria.GENERAL, label: 'General', icon: 'ℹ️' },
+  { value: 'all', label: 'Todas' },
+  { value: FAQCategoria.PROBLEMAS, label: 'Problemas' },
+  { value: FAQCategoria.SERVICIOS, label: 'Servicios' },
+  { value: FAQCategoria.PAGOS, label: 'Pagos' },
+  { value: FAQCategoria.GENERAL, label: 'General' },
 ];
 
 export const FAQCategoryFilter: React.FC<FAQCategoryFilterProps> = ({
@@ -41,7 +41,6 @@ export const FAQCategoryFilter: React.FC<FAQCategoryFilterProps> = ({
             `}
             aria-pressed={isActive}
           >
-            <span className="text-base">{category.icon}</span>
             <span className="whitespace-nowrap">{category.label}</span>
           </button>
         );

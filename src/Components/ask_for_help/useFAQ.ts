@@ -1,7 +1,7 @@
 // frontend/src/features/faq/hooks/useFAQ.ts
 import { useState, useEffect, useCallback } from 'react';
-import { FAQ, FAQCategoria, UseFAQReturn } from '../types/faq.types';
-import { FAQService } from '../services/faq.service';
+import { FAQ, FAQCategoria, UseFAQReturn } from './faq.types';
+import { FAQService } from './faq.service';
 
 export const useFAQ = (): UseFAQReturn => {  // ⬅️ Agregar tipo de retorno
   const [faqs, setFaqs] = useState<FAQ[]>([]);

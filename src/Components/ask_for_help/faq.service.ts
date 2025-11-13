@@ -1,6 +1,6 @@
 // frontend/src/features/faq/services/faq.service.ts
-import { API_CONFIG } from '../../../config/api.config';
-import { FAQ, FAQResponse } from '../types/faq.types';
+import { API_CONFIG } from '../../config/api.config';
+import { FAQ, FAQResponse } from './faq.types';
 
 export class FAQService {
   private baseURL: string;

@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FAQ } from '../types/faq.types';
+import { FAQ } from './faq.types';
 // Eliminada: import styles from '../styles/faq.module.css';
 
 interface FAQItemProps {
