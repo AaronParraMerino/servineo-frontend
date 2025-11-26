@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import { useRouter } from "next/navigation";
-import { Home, User, Search, Star, HelpCircle } from "lucide-react";
+import { Home, User, Search, Star, HelpCircle, Users } from "lucide-react";
 
 interface Suggestion {
   id: number;
@@ -43,6 +43,9 @@ const CentroDeAyuda: React.FC = () => {
           break;
         case "Publicaciones Populares":
           finalUrl = "/ask.for-help/publicaciones-populares";
+          break;
+        case "Foro de Usuarios":
+          finalUrl = "/ask.for-help/foro-usuario";
           break;
         case "Home":
           finalUrl = "/";
@@ -168,6 +171,16 @@ const CentroDeAyuda: React.FC = () => {
       !isSearching &&
       (normalizedQuery.length === 0 ||
         ["popu", "publica", "guia", "articulo", "arti"].some((k) =>
+          normalizedQuery.includes(k)
+        ))
+    );
+  }, [normalizedQuery, isSearching]);
+
+  const isForumVisible = useMemo(() => {
+    return (
+      !isSearching &&
+      (normalizedQuery.length === 0 ||
+        ["foro", "comunidad", "usuario", "usuarios", "duda", "ayuda"].some((k) =>
           normalizedQuery.includes(k)
         ))
     );
@@ -344,7 +357,26 @@ const CentroDeAyuda: React.FC = () => {
                 </button>
               )}
 
-              {!isFAQVisible && !isPopularVisible && normalizedQuery.length > 0 && (
+              {isForumVisible && (
+                <button
+                  onClick={() => handleRedirect("Foro de Usuarios")}
+                  className="w-full flex items-center p-4 bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] duration-200 text-left hover:bg-blue-50"
+                >
+                  <div className="p-3 mr-4 rounded-full bg-blue-100 text-blue-600">
+                    <Users className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      Foro de Usuarios
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      comparte tus dudas y ayuda a otros usuarios
+                    </p>
+                  </div>
+                </button>
+              )}
+
+              {!isFAQVisible && !isPopularVisible && !isForumVisible && normalizedQuery.length > 0 && (
                 <p className="text-center text-gray-500 py-4">
                   No se encontraron categorías que coincidan con &quot;
                   {searchTerm}&quot;.
