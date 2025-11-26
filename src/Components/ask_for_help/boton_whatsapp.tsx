@@ -33,7 +33,7 @@ const BotonWhatsapp = () => {
                     aria-label="Contactar por WhatsApp"
                 >
                     <Image
-                        src="/ask_for_help/whatsapplogoblanco.png" 
+                        src="/img/whatsapplogoblanco.png" 
                         alt="Logo de WhatsApp"
                         width={48}
                         height={48}
