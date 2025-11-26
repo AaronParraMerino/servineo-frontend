@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FAQSearch } from '@/Components/ask_for_help/FAQSearch';
 import { FAQCategoryFilter } from '@/Components/ask_for_help/FAQCategoryFilter';
 import { FAQList } from '@/Components/ask_for_help/FAQList';
-import { FAQContact } from '@/Components/ask_for_help/FAQContact';
+//import { FAQContact } from '@/Components/ask_for_help/FAQContact';
 import { useFAQ } from '@/Components/ask_for_help/useFAQ';
 
 export default function PreguntasFrecuentesPage() {
@@ -64,8 +64,6 @@ export default function PreguntasFrecuentesPage() {
           
 
           <FAQList faqs={faqs} loading={loading} />
-
-          <FAQContact />
         </div>
       </div>
     </div>
