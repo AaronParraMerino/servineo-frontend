@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   getForumWithComments,
   addCommentToForum,
@@ -21,22 +21,26 @@ export default function ForoDetallePage() {
   const [posting, setPosting] = useState(false);
   const [postError, setPostError] = useState<string | null>(null);
 
-  async function load() {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const res = await getForumWithComments(forumId);
       setData(res);
-    } catch (err: any) {
-      setError(err.message || "Error al cargar la publicación");
+    } catch (err: unknown) {
+      let errorMessage = "Error al cargar la publicación";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  }
+  }, [forumId, setData, setError, setLoading]); 
 
   useEffect(() => {
     if (forumId) load();
-  }, [forumId]);
+  }, [forumId, load]); 
 
   async function handleSend(e: React.FormEvent) {
     e.preventDefault();
@@ -47,9 +51,13 @@ export default function ForoDetallePage() {
       setPostError(null);
       await addCommentToForum(forumId, newComment);
       setNewComment("");
-      await load();
-    } catch (err: any) {
-      setPostError(err.message || "Error al enviar el comentario");
+      await load(); 
+    } catch (err: unknown) { 
+      let errorMessage = "Error al enviar el comentario";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setPostError(errorMessage);
     } finally {
       setPosting(false);
     }

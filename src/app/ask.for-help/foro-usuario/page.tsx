@@ -25,8 +25,12 @@ export default function ForoDeUsuariosPage() {
       setError(null);
       const data = await listForums();
       setThreads(data);
-    } catch (err: any) {
-      setError(err.message || "Error al cargar el foro");
+    } catch (err: unknown) { 
+      let errorMessage = "Error al cargar el foro";
+      if (err instanceof Error) { 
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -61,12 +65,16 @@ export default function ForoDeUsuariosPage() {
       setTitulo("");
       setDescripcion("");
       await loadForums();
-    } catch (err: any) {
-      setCreateError(err.message || "Error al crear la publicación");
-    } finally {
-      setCreating(false);
-    }
-  }
+    } catch (err: unknown) {
+      let errorMessage = "Error al crear la publicación";
+          if (err instanceof Error) {
+            errorMessage = err.message;
+          }
+          setCreateError(errorMessage);
+        } finally {
+          setCreating(false);
+        }
+      }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
