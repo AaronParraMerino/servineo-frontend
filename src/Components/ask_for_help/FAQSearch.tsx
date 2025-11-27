@@ -55,22 +55,7 @@ export const FAQSearch: React.FC<FAQSearchProps> = ({ onSearch }) => {
         value={searchTermRaw}
         onChange={handleChange}
         maxLength={MAX_LENGTH}
-        className="
-          w-full 
-          p-3 
-          pl-10 
-          pr-10 /* espacio para la X */
-          border 
-          border-gray-300 
-          rounded-full 
-          shadow-sm 
-          focus:outline-none 
-          focus:ring-2 
-          focus:ring-blue-500 
-          transition 
-          duration-300
-          text-black
-        "
+        className="w-full pl-12 pr-10 py-3 border-2 border-border rounded-xl bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm hover:shadow-md"
         aria-label={`Buscar preguntas frecuentes (máx. ${MAX_LENGTH} caracteres)`}
       />
 

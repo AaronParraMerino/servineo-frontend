@@ -253,7 +253,7 @@ const CentroDeAyuda: React.FC = () => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSearchSubmit(e);
                 }}
-                className="w-full pl-12 pr-4 py-3 text-gray-800 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 shadow-inner"
+                className="w-full pl-12 pr-10 py-3 border-2 border-border rounded-xl bg-card focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm hover:shadow-md"
               />
             </div>
 
