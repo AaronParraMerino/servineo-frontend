@@ -1,9 +1,10 @@
-// frontend/src/components/ask_for_help/api.config.ts
+// frontend/src/Components/ask_for_help/api.config.ts
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:5000',
+  // Usamos la misma base que el foro
+  BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api',
   ENDPOINTS: {
-    FAQS: '/api/faqs',
-    FAQ_BY_ID: (id: string) => `/api/faqs/${id}`,
-    FAQS_SEARCH: '/api/faqs/search',
+    FAQS: '/faqs',
+    FAQ_BY_ID: (id: string) => `/faqs/${id}`,
+    FAQS_SEARCH: '/faqs/search',
   },
 };
