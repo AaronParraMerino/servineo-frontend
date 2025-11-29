@@ -30,3 +30,9 @@ export interface ForumWithComments {
   forum: ForumThread;
   comments: ForumComment[];
 }
+
+export interface CreateForumPayload {
+  titulo: string;
+  descripcion: string;
+  categoria?: ForumThread["categoria"];
+}

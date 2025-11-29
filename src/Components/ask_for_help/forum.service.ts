@@ -1,13 +1,11 @@
 // src/Components/ask_for_help/forum.service.ts
-import { ForumThread, ForumWithComments } from "./forum.types";
+import { ForumThread, ForumWithComments, ForumComment, CreateForumPayload } from "./forum.types"; 
 
 // Leemos SOLO lo que ya hay en el .env (no se toca el .env)
 const RAW_API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 // Normalizamos para que siempre termine en /api
-// - Si es "http://localhost:8000"      → "http://localhost:8000/api"
-// - Si es "http://localhost:8000/api"  → se queda igual
 const API_BASE_URL = (() => {
   const trimmed = RAW_API_URL.replace(/\/+$/, "");
 
@@ -58,9 +56,17 @@ export async function getForum(id: string): Promise<ForumWithComments> {
   return res.json();
 }
 
+// 🔹 Alias para que tu page.tsx pueda usar getForumWithComments sin romper
+export async function getForumWithComments(
+  id: string
+): Promise<ForumWithComments> {
+  return getForum(id);
+}
+
 // POST /forums
-// Usamos `any` para no pelear con tipos aquí; tu page.tsx puede pasar el payload que ya usaba
-export async function createForum(payload: any): Promise<ForumThread> {
+export async function createForum(
+  payload: CreateForumPayload
+): Promise<ForumThread> {
   const url = `${API_BASE_URL}/forums`;
   console.log("[ForumService] POST", url, payload);
 
@@ -81,3 +87,29 @@ export async function createForum(payload: any): Promise<ForumThread> {
 
   return res.json();
 }
+export async function addCommentToForum(
+  forumId: string,
+  contenido: string
+): Promise<ForumComment> {
+  const url = `${API_BASE_URL}/forums/${forumId}/comments`;
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      contenido,
+      // TEMPORAL (solo desarrollo)
+      authorId: "667788990011223344556677",
+      authorName: "Usuario Demo",
+      authorRole: "visitor"
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al añadir comentario");
+  }
+
+  return res.json();
+}
+
