@@ -41,9 +41,6 @@ const CentroDeAyuda: React.FC = () => {
         case "Preguntas Frecuentes (FAQ)":
           finalUrl = "/ask.for-help/preguntas-frecuentes";
           break;
-        case "Publicaciones Populares":
-          finalUrl = "/ask.for-help/publicaciones-populares";
-          break;
         case "Foro de Usuarios":
           finalUrl = "/ask.for-help/foro-usuario";
           break;
@@ -97,11 +94,6 @@ const CentroDeAyuda: React.FC = () => {
             { id: 1, title: "Problemas con mi pago", url: "/ayuda/pago-problemas" },
             { id: 2, title: "Métodos de pago aceptados", url: "/ayuda/metodos-pago" },
           ]);
-        } else if (query.toLowerCase().includes("perfil")) {
-          setSuggestions([
-            { id: 3, title: "Cómo actualizar mi perfil", url: "/ask.for-help/publicaciones-populares" },
-            { id: 4, title: "Recuperar contraseña", url: "/ask.for-help/publicaciones-populares" },
-          ]);
         } else if (query.toLowerCase().includes("faq") || query.toLowerCase().includes("pregunta")) {
           setSuggestions([
             { id: 99, title: "Preguntas Frecuentes (FAQ)", url: "/ask.for-help/preguntas-frecuentes" },
@@ -142,7 +134,6 @@ const CentroDeAyuda: React.FC = () => {
       { id: 12, title: "Información de facturación", url: "/ayuda/facturacion" },
       { id: 13, title: "Contacto de soporte", url: "/ask.for-help/preguntas-frecuentes" },
       { id: 14, title: "Preguntas Frecuentes (FAQ)", url: "/ask.for-help/preguntas-frecuentes" },
-      { id: 15, title: "Publicaciones Populares", url: "/ask.for-help/publicaciones-populares" },
     ];
 
     const filtered = simSuggestions.filter((s) =>
@@ -337,25 +328,6 @@ const CentroDeAyuda: React.FC = () => {
                       </h2>
                       <p className="text-sm text-gray-500">
                         Respuestas rápidas a las dudas comunes.
-                      </p>
-                    </div>
-                  </button>
-                )}
-
-                {isPopularVisible && (
-                  <button
-                    onClick={() => handleRedirect("Publicaciones Populares")}
-                    className="w-full flex items-center p-4 bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg hover:scale-[1.01] duration-200 text-left hover:bg-blue-50"
-                  >
-                    <div className="p-3 mr-4 rounded-full bg-blue-100 text-blue-600">
-                      <Star className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-semibold text-gray-800">
-                        Publicaciones Populares
-                      </h2>
-                      <p className="text-sm text-gray-500">
-                        Artículos y guías más consultadas.
                       </p>
                     </div>
                   </button>
