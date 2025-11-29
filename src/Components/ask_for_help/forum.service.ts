@@ -1,77 +1,82 @@
-import { ForumThread, ForumWithComments } from './forum.types';
+// src/Components/ask_for_help/forum.service.ts
+import { ForumThread, ForumWithComments } from "./forum.types";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
+// Leemos SOLO lo que ya hay en el .env (no se toca el .env)
+const RAW_API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+// Normalizamos para que siempre termine en /api
+// - Si es "http://localhost:8000"      → "http://localhost:8000/api"
+// - Si es "http://localhost:8000/api"  → se queda igual
+const API_BASE_URL = (() => {
+  const trimmed = RAW_API_URL.replace(/\/+$/, "");
+
+  if (trimmed.endsWith("/api")) {
+    return trimmed;
+  }
+
+  return `${trimmed}/api`;
+})();
+
+console.log("[ForumService] API_BASE_URL =", API_BASE_URL);
+
+// GET /forums
 export async function listForums(): Promise<ForumThread[]> {
-  const res = await fetch(`${API_BASE_URL}/forums`, {
-    method: 'GET',
-    credentials: 'include',
+  const url = `${API_BASE_URL}/forums`;
+  console.log("[ForumService] GET", url);
+
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "include",
   });
 
   if (!res.ok) {
-    throw new Error('Error al cargar el foro');
+    const text = await res.text().catch(() => "");
+    console.error("Error al cargar el foro:", res.status, text);
+    throw new Error("Error al cargar el foro");
   }
 
   return res.json();
 }
 
-export async function createForum(input: {
-  titulo: string;
-  descripcion: string;
-  categoria?: string;
-}): Promise<ForumThread> {
-  const res = await fetch(`${API_BASE_URL}/forums`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include', // para enviar cookies de login
-    body: JSON.stringify(input),
+// GET /forums/:id
+export async function getForum(id: string): Promise<ForumWithComments> {
+  const url = `${API_BASE_URL}/forums/${id}`;
+  console.log("[ForumService] GET", url);
+
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "include",
   });
 
-  if (res.status === 401) {
-    throw new Error('Debes iniciar sesión para crear una publicación');
-  }
-
   if (!res.ok) {
-    throw new Error('Error al crear la publicación');
+    const text = await res.text().catch(() => "");
+    console.error("Error al cargar el hilo:", res.status, text);
+    throw new Error("Error al cargar el hilo");
   }
 
   return res.json();
 }
 
-export async function getForumWithComments(
-  forumId: string,
-): Promise<ForumWithComments> {
-  const res = await fetch(`${API_BASE_URL}/forums/${forumId}`, {
-    method: 'GET',
-    credentials: 'include',
+// POST /forums
+// Usamos `any` para no pelear con tipos aquí; tu page.tsx puede pasar el payload que ya usaba
+export async function createForum(payload: any): Promise<ForumThread> {
+  const url = `${API_BASE_URL}/forums`;
+  console.log("[ForumService] POST", url, payload);
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(payload),
   });
 
   if (!res.ok) {
-    throw new Error('Error al cargar la publicación');
-  }
-
-  return res.json();
-}
-
-export async function addCommentToForum(forumId: string, contenido: string) {
-  const res = await fetch(`${API_BASE_URL}/forums/${forumId}/comments`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ contenido }),
-  });
-
-  if (res.status === 401) {
-    throw new Error('Debes iniciar sesión para comentar');
-  }
-
-  if (res.status === 409) {
-    throw new Error('Este hilo está bloqueado para nuevos comentarios');
-  }
-
-  if (!res.ok) {
-    throw new Error('Error al agregar el comentario');
+    const text = await res.text().catch(() => "");
+    console.error("Error al crear el foro:", res.status, text);
+    throw new Error("Error al crear el foro");
   }
 
   return res.json();
