@@ -7,7 +7,7 @@ import React, {
   useMemo,
 } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Star, HelpCircle, Users } from "lucide-react";
+import { Search, HelpCircle, Users } from "lucide-react";
 
 interface Suggestion {
   id: number;
