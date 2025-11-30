@@ -15,7 +15,7 @@ const BotonWhatsapp = () => {
     const whatsappUrl = `https://wa.me/${numerowhapi}?text=${encodedMessage}`;
     
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 
     const handleInitialClick = () => {
@@ -65,12 +65,12 @@ const BotonWhatsapp = () => {
             <button
                 type="button"
                 onClick={handleInitialClick}
-                className="flex items-center justify-center 
+                className="flex items-center justify-center
                         w-13 h-13
                         bg-[#2563EB] hover:bg-[#1D4ED8]
-                        rounded-full shadow-lg 
-                        transition duration-300 transform hover:scale-105 
-                        cursor-pointer z-40 relative"
+                        rounded-full shadow-lg
+                        transition duration-300 transform hover:scale-105
+                        cursor-pointer"
                 aria-label="Contactar por WhatsApp"
             >
                 <Image

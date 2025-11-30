@@ -3,7 +3,7 @@
 // Resuelve la base de la API usando NEXT_PUBLIC_API_URL
 // - Si viene "http://localhost:8000"     → "http://localhost:8000/api"
 // - Si viene "http://localhost:8000/api" → se queda igual
-function resolveApiBaseUrl(): string {
+/*function resolveApiBaseUrl(): string {
   const raw = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   // Quitamos slashes del final
@@ -27,3 +27,4 @@ export const API_CONFIG = {
     // si luego quieres agregar aquí FORUMS, etc., también puede
   },
 };
+*/

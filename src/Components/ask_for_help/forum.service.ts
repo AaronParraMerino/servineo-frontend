@@ -28,7 +28,7 @@ export async function listForums(): Promise<ForumThread[]> {
 export async function createForum(input: {
   titulo: string;
   descripcion: string;
-  categoria?: string;
+  categoria: "problemas" | "servicios" | "consejos" | "general";
 }): Promise<ForumThread> {
   // El token de acceso se guarda como "servineo_token" en localStorage
   const token =

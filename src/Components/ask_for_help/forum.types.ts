@@ -1,4 +1,5 @@
 export type AuthorRole = 'requester' | 'fixer' | 'visitor' | 'admin';
+export type ForumCategoria = 'problemas' | 'servicios' | 'consejos' | 'general';
 
 export interface ForumThread {
   _id: string;
@@ -7,7 +8,7 @@ export interface ForumThread {
   authorRole: AuthorRole;
   titulo: string;
   descripcion: string;
-  categoria?: 'problemas' | 'servicios' | 'consejos' | 'general';
+  categoria: ForumCategoria;
   commentsCount: number;
   isLocked: boolean;
   createdAt: string;
@@ -34,5 +35,5 @@ export interface ForumWithComments {
 export interface CreateForumPayload {
   titulo: string;
   descripcion: string;
-  categoria?: ForumThread["categoria"];
+  categoria: ForumCategoria;
 }
