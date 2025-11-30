@@ -66,11 +66,11 @@ const BotonWhatsapp = () => {
                 type="button"
                 onClick={handleInitialClick}
                 className="flex items-center justify-center 
-                           w-16 h-16
-                           bg-[#2B31E0] hover:bg-[#2B6AE0] 
-                           rounded-full shadow-lg 
-                           transition duration-300 transform hover:scale-105 
-                           cursor-pointer z-40 relative" 
+                        w-13 h-13
+                        bg-[#2563EB] hover:bg-[#1D4ED8]
+                        rounded-full shadow-lg 
+                        transition duration-300 transform hover:scale-105 
+                        cursor-pointer z-40 relative"
                 aria-label="Contactar por WhatsApp"
             >
                 <Image

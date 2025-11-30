@@ -7,7 +7,6 @@ import CTASection from "@/Components/Home/CTA-section";
 import MapSection from "@/Components/Home/Map-section";
 import InspirationSection from "@/Components/Home/Inspiration-section";
 import FooterSection from "@/Components/Home/Footer-section";
-import BotonesFlotantes from "@/Components/ask_for_help/contenedor";
 
 export default function Home() {
   return (
@@ -23,9 +22,6 @@ export default function Home() {
 
       <ServicesSection />
       <HowItWorksSection />
-      <BotonesFlotantes
-        />
-
       <CTASection />
       <FooterSection />
     </div>
