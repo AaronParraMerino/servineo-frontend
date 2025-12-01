@@ -74,10 +74,12 @@ const BotonWhatsapp = () => {
                 aria-label="Contactar por WhatsApp"
             >
                 <Image
-                    src="/img/whatsapplogoblanco.png"
-                    alt="Logo de WhatsApp"
-                    width={48}
-                    height={48}
+                src="/icons/chatbot.png"
+                alt="Icono de chatbot"
+                width={32}
+                height={32}
+                unoptimized
+                style={{ width: "auto", height: "auto" }}
                 />
             </button>
 
