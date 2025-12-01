@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 export const WhatsappBanner = () => {
   // Configuración del número y mensaje
-  const phoneNumber = "59100000000"; 
-  const message = "Hola, necesito ayuda con un servicio.";
+  const phoneNumber = "59176107373"; 
+  const message = "Escribemos tu problema para que la IA te ayude";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
