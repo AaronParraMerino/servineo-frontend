@@ -46,8 +46,8 @@ export default function TopMenu() {
     { name: "Ofertas de trabajo", href: "/job-offer-list" },
     // quitar campos de prueba
     // { name: 'Convertir-fixer', href: '/become-fixer' },
-    { name: "mis ofertas", href: "/fixer/my-offers" },
-    { name: "perfil", href: "/fixer/profile" },
+    //{ name: "mis ofertas", href: "/fixer/my-offers" },
+    //{ name: "perfil", href: "/fixer/profile" },
     { name: 'Ayuda', href: '/ask.for-help/centro_de_ayuda' }
   ];
 

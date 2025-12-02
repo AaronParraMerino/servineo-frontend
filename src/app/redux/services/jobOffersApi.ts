@@ -58,6 +58,7 @@ export const jobOffersApi = baseApi.injectEndpoints({
         urlParams.append('page', String(params.page || 1));
         urlParams.append('limit', String(params.limit || 10));
         
+        return `/jobs?${urlParams.toString()}`;
         return `/devmaster/offers?${urlParams.toString()}`;
       },
       providesTags: ['JobOffer'],
@@ -72,6 +73,8 @@ export const jobOffersApi = baseApi.injectEndpoints({
           limit: String(limit)
         });
         if (category && category !== 'Todos') params.append('category', category);
+
+        //return `/jobs?${urlParams.toString()}`;
         return `/devmaster/offers?${params.toString()}`;
       },
       providesTags: ['JobOffer'],
@@ -84,6 +87,7 @@ export const jobOffersApi = baseApi.injectEndpoints({
         if (search?.trim()) params.append('search', search);
         if (category?.length) params.append('category', category.join(','));
         if (!search && !category?.length) params.append('recent', 'true');
+        return "/jobs"; 
         return `/devmaster/tags?${params.toString()}`;
       },
       transformResponse: (response: TagsApiResponse | string[]) => {
@@ -97,6 +101,7 @@ export const jobOffersApi = baseApi.injectEndpoints({
     // 4. Rangos de precios
     getPriceRanges: builder.query<PriceRangesResponse, void>({
       query: () => {
+        return "/jobs";
         return '/devmaster/offers?action=getPriceRanges';
       },
       transformResponse: (response: PriceRangesApiResponse) => {
