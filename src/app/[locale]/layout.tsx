@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { TranslationButton } from "@/Components/Shared/TranslationButton";
-import BotonesFlotantes from "@/Components/ask_for_help/contenedor";
+import BotonesFlotantes from "@/Components/ask-for-help/contenedor";
 import { AuthProvider } from "../lib/hooks/usoAutentificacion"; // lo tenías en el root
 
 
@@ -56,8 +56,9 @@ export default async function LocaleLayout({ children, params }: Props) {
     <NextIntlClientProvider locale={locale} messages={messages}>
       <ReduxProvider>
         <AuthProvider>
-          <div className="text-black fixed bottom-7 right-7 z-[9999]">
+          <div className="text-black fixed bottom-2 right-2 z-[9999] flex flex-col items-center">
             <TranslationButton />
+            <div className="-mt-10"></div>
             <BotonesFlotantes />
           </div>
           <div>

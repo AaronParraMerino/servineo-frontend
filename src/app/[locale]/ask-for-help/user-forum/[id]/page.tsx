@@ -5,11 +5,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import {
   getForumWithComments,
   addCommentToForum,
-} from "@/Components/ask_for_help/forum.service";
-import type { ForumWithComments } from "@/Components/ask_for_help/forum.types";
-import { FORUMThreadDetail } from "@/Components/ask_for_help/FORUMThreadDetail";
-import { FORUMCommentsList } from "@/Components/ask_for_help/FORUMCommetsList";
-import { FORUMCommentForm } from "@/Components/ask_for_help/FORUMCommentForm";
+} from "@/services/forum.service";
+import type { ForumWithComments } from "@/types/forum.types";
+import { FORUMThreadDetail } from "@/Components/ask-for-help/FORUMThreadDetail";
+import { FORUMCommentsList } from "@/Components/ask-for-help/FORUMCommetsList";
+import { FORUMCommentForm } from "@/Components/ask-for-help/FORUMCommentForm";
 
 export default function ForoDetallePage() {
   const router = useRouter();

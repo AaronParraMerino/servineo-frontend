@@ -1,7 +1,7 @@
 // frontend/src/componentes/ask_for_help/useFAQ.ts
 import { useState, useEffect, useCallback } from 'react';
-import { FAQ, FAQCategoria, UseFAQReturn } from './faq.types';
-import { FAQService } from './faq.service';
+import { FAQ, FAQCategoria, UseFAQReturn } from '../types/faq.types';
+import { FAQService } from '../services/faq.service';
 
 // Crear una ÚNICA instancia del servicio
 const faqServiceInstance = new FAQService();

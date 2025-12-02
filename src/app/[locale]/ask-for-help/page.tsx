@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useRouter } from "next/navigation";
 import { Search, HelpCircle, Users } from "lucide-react";
+import WhatsappBanner from "@/Components/ask-for-help/WhatsappBanner"; // ajusta la ruta si el archivo está en otra carpeta
 
 interface Suggestion {
   id: number;
@@ -39,10 +40,10 @@ const CentroDeAyuda: React.FC = () => {
       switch (target) {
         case "Preguntas Frecuentes sobre Servineo":
         case "Preguntas Frecuentes (FAQ)":
-          finalUrl = "/ask.for-help/preguntas-frecuentes";
+          finalUrl = "/ask-for-help/frequently-asked-questions";
           break;
         case "Foro de Usuarios":
-          finalUrl = "/ask.for-help/foro-usuario";
+          finalUrl = "/ask-for-help/user-forum";
           break;
         case "Home":
           finalUrl = "/";
@@ -96,7 +97,7 @@ const CentroDeAyuda: React.FC = () => {
           ]);
         } else if (query.toLowerCase().includes("faq") || query.toLowerCase().includes("pregunta")) {
           setSuggestions([
-            { id: 99, title: "Preguntas Frecuentes (FAQ)", url: "/ask.for-help/preguntas-frecuentes" },
+            { id: 99, title: "Preguntas Frecuentes (FAQ)", url: "/ask-for-help/frequently-asked-questions" },
           ]);
         } else {
           setSuggestions([]);
@@ -132,8 +133,8 @@ const CentroDeAyuda: React.FC = () => {
       { id: 10, title: "Problemas con mi pago", url: "/ayuda/pago-problemas" },
       { id: 11, title: "Restablecer contraseña", url: "/ayuda/restablecer" },
       { id: 12, title: "Información de facturación", url: "/ayuda/facturacion" },
-      { id: 13, title: "Contacto de soporte", url: "/ask.for-help/preguntas-frecuentes" },
-      { id: 14, title: "Preguntas Frecuentes (FAQ)", url: "/ask.for-help/preguntas-frecuentes" },
+      { id: 13, title: "Contacto de soporte", url: "/ask-for-help/frequently-asked-questions" },
+      { id: 14, title: "Preguntas Frecuentes (FAQ)", url: "/ask-for-help/frequently-asked-questions" },
     ];
 
     const filtered = simSuggestions.filter((s) =>
@@ -365,6 +366,8 @@ const CentroDeAyuda: React.FC = () => {
             )}
           </main>
         </div>
+        {/* 🔻 Banner de WhatsApp con captcha, debajo del Centro de Ayuda */}
+      <WhatsappBanner />
       </div>
     </div>
   );

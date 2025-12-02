@@ -2,15 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { listForums, createForum } from "@/Components/ask_for_help/forum.service";
-import type { ForumThread, ForumCategoria } from "@/Components/ask_for_help/forum.types";
-import { FORUMSearch } from "@/Components/ask_for_help/FORUMSearch";
+import { listForums, createForum } from "@/services/forum.service";
+import type { ForumThread, ForumCategoria } from "@/types/forum.types";
+import { FORUMSearch } from "@/Components/ask-for-help/FORUMSearch";
 import {
   FORUMCategoryFilter,
   ForumCategoryFilterValue,
-} from "@/Components/ask_for_help/FORUMCategoryFilter";
-import { FORUMCreateForm } from "@/Components/ask_for_help/FORUMCreateForm";
-import { FORUMThreadList } from "@/Components/ask_for_help/FORUMThreadList";
+} from "@/Components/ask-for-help/FORUMCategoryFilter";
+import { FORUMCreateForm } from "@/Components/ask-for-help/FORUMCreateForm";
+import { FORUMThreadList } from "@/Components/ask-for-help/FORUMThreadList";
 
 export default function ForoDeUsuariosPage() {
   const router = useRouter();
@@ -156,7 +156,7 @@ export default function ForoDeUsuariosPage() {
             loading={loading}
             error={error}
             onOpenThread={(id) =>
-              router.push(`/ask.for-help/foro-usuario/${id}`)
+              router.push(`/ask-for-help/user-forum/${id}`)
             }
           />
         </div>

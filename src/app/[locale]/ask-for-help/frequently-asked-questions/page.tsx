@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { FAQSearch } from '@/Components/ask_for_help/FAQSearch';
-import { FAQCategoryFilter } from '@/Components/ask_for_help/FAQCategoryFilter';
-import { FAQList } from '@/Components/ask_for_help/FAQList';
-//import { FAQContact } from '@/Components/ask_for_help/FAQContact';
-import { useFAQ } from '@/Components/ask_for_help/useFAQ';
+import { FAQSearch } from '@/Components/ask-for-help/FAQSearch';
+import { FAQCategoryFilter } from '@/Components/ask-for-help/FAQCategoryFilter';
+import { FAQList } from '@/Components/ask-for-help/FAQList';
+//import { FAQContact } from '@/Components/ask-for-help/FAQContact';
+import { useFAQ } from '@/hooks/useFAQ';
 
 export default function PreguntasFrecuentesPage() {
   const router = useRouter();

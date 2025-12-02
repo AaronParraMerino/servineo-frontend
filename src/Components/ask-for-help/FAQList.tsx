@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { FAQ } from './faq.types';
+import { FAQ } from '../../types/faq.types';
 import { FAQItem } from './FAQItem';
 
 interface FAQListProps {

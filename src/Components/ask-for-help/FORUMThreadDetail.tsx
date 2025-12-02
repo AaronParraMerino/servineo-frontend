@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import type { ForumThread } from "./forum.types";
+import type { ForumThread } from "../../types/forum.types";
 
 interface FORUMThreadDetailProps {
   forum: ForumThread;

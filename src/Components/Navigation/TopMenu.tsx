@@ -48,7 +48,7 @@ export default function TopMenu() {
     // { name: 'Convertir-fixer', href: '/become-fixer' },
     //{ name: "mis ofertas", href: "/fixer/my-offers" },
     //{ name: "perfil", href: "/fixer/profile" },
-    { name: 'Ayuda', href: '/ask.for-help/centro_de_ayuda' }
+    { name: 'Ayuda', href: '/ask-for-help' }
   ];
 
 

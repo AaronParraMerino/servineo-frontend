@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { FAQCategoria } from './faq.types';
+import { FAQCategoria } from '../../types/faq.types';
 // Eliminada: import styles from '../styles/faq.module.css';
 
 interface FAQCategoryFilterProps {

@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import type { ForumComment } from "./forum.types";
+import type { ForumComment } from "../../types/forum.types";
 
 interface FORUMCommentsListProps {
   comments: ForumComment[];

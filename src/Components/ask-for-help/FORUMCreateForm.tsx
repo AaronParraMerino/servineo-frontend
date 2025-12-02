@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import type { ForumCategoria } from "./forum.types";
+import type { ForumCategoria } from "../../types/forum.types";
 
 interface FORUMCreateFormProps {
   show: boolean;

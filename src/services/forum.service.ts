@@ -1,4 +1,4 @@
-import { ForumThread, ForumWithComments } from "./forum.types";
+import { ForumThread, ForumWithComments } from "../types/forum.types";
 
 // Usamos SOLO lo que ya tienes en el .env:
 // NEXT_PUBLIC_API_URL=http://localhost:8000  (la última línea es la que manda)

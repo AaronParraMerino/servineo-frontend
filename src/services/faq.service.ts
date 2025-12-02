@@ -1,5 +1,5 @@
 // frontend/src/components/ask_for_help/faq.service.ts
-import { FAQ, FAQResponse } from './faq.types';
+import { FAQ, FAQResponse } from '../types/faq.types';
 
 // Leemos SOLO lo que ya existe en el .env
 const RAW_API_URL =

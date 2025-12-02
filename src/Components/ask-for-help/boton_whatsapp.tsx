@@ -10,13 +10,11 @@ const BotonWhatsapp = () => {
     const recaptchaRef = useRef<ReCAPTCHA>(null);
 
     const numerowhapi = "59178194834";
-    const mensaje = "";
+    const mensaje = "Servineo - Escríbenos tu problema para que la IA te ayude";
     const encodedMessage = encodeURIComponent(mensaje);
     const whatsappUrl = `https://wa.me/${numerowhapi}?text=${encodedMessage}`;
     
-
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
-
 
     const handleInitialClick = () => {
         if (navigator.onLine) {
@@ -26,7 +24,6 @@ const BotonWhatsapp = () => {
         }
     };
 
-   
     const handleCaptchaChange = async (token: string | null) => {
         if (!token) return;
 
@@ -40,14 +37,11 @@ const BotonWhatsapp = () => {
             const data = await response.json();
 
             if (data.success) {
-                
                 setTimeout(() => {
                     setShowCaptcha(false); 
                     window.open(whatsappUrl, '_blank', 'noopener,noreferrer'); 
                 }, 1000); 
-
             } else {
-                
                 alert("Verificación fallida. Las claves no coinciden o el token expiró.");
                 recaptchaRef.current?.reset();
             }
@@ -63,31 +57,29 @@ const BotonWhatsapp = () => {
         <>
             {/* Botón Flotante */}
             <button
-                type="button"
-                onClick={handleInitialClick}
-                className="flex items-center justify-center
-                        w-13 h-13
+            type="button"
+            onClick={handleInitialClick}
+            className="flex items-center justify-center
+                        w-12 h-12
                         bg-[#2563EB] hover:bg-[#1D4ED8]
                         rounded-full shadow-lg
                         transition duration-300 transform hover:scale-105
                         cursor-pointer"
-                aria-label="Contactar por WhatsApp"
+            aria-label="Contactar por WhatsApp"
             >
-                <Image
-                src="/icons/chatbot.png"
+            <Image
+                src="/icons/whatsapplogoblanco.png"
                 alt="Icono de chatbot"
-                width={32}
-                height={32}
-                unoptimized
-                style={{ width: "auto", height: "auto" }}
-                />
+                width={28}
+                height={28}
+            />
             </button>
 
-            {/* 5. Modal / Overlay del Captcha */}
+
+            {/* Modal / Overlay del Captcha */}
             {showCaptcha && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
                     <div className="bg-white p-6 rounded-lg shadow-xl relative flex flex-col items-center gap-4">
-                        
                         <h3 className="text-lg font-semibold text-gray-700">Verificación de seguridad</h3>
                         <p className="text-sm text-gray-500 mb-2">Confirma que eres humano para continuar.</p>
 
@@ -97,7 +89,6 @@ const BotonWhatsapp = () => {
                             onChange={handleCaptchaChange}
                         />
 
-                        {/* Botón para cerrar */}
                         <button 
                             onClick={() => setShowCaptcha(false)}
                             className="text-gray-400 hover:text-gray-600 text-sm mt-2 underline"

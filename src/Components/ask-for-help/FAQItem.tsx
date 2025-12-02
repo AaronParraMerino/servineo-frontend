@@ -2,7 +2,7 @@
 'use client';
 
 import React, {} from 'react';
-import { FAQ } from './faq.types';
+import { FAQ } from '../../types/faq.types';
 
 interface FAQItemProps {
   faq: FAQ;
@@ -59,7 +59,9 @@ export const FAQItem: React.FC<FAQItemProps> = ({ faq, isOpen, onToggle }) => {
           className="p-4 pt-0 border-t border-gray-100 text-gray-600 transition-all duration-300"
           role="region"
         >
-          <div className="pt-3">{faq.respuesta}</div>
+          <div className="pt-3 whitespace-pre-line">
+            {faq.respuesta}
+          </div>
         </div>
       )}
     </div>
