@@ -5,12 +5,12 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 export function SearchButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  const t = useTranslations('search'); 
+  const t = useTranslations('search');
   const { disabled, ...rest } = props;
 
   return (
     <Button
-      size="lg"
+      size='lg'
       className={`
         bg-[#2B6AE0] text-white
         ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#2B6AE0]/90'}
@@ -26,7 +26,7 @@ export function SearchButton(props: React.ButtonHTMLAttributes<HTMLButtonElement
       disabled={disabled}
       {...rest}
     >
-      {t('buttonSearch')} 
+      {t('buttonSearch')}
     </Button>
   );
 }

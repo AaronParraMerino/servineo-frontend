@@ -6,7 +6,7 @@ import { parsePriceRange } from '@/app/redux/features/jobOffers/parsers';
 
 interface FilterStateLocal {
   range: string[];
-  city: string;
+  city: string[];
   category: string[];
   tags: string[];
   priceRanges: string[];
@@ -16,7 +16,7 @@ interface FilterStateLocal {
 
 type UpdateParams = {
   newRanges?: string[];
-  newCity?: string;
+  newCity?: string[];
   newJobs?: string[];
   newCategories?: string[];
   newPriceRanges?: string[];
@@ -42,16 +42,16 @@ export default function useAdvSearchLogic() {
     categorias: false,
     precio: false,
   });
-  
+
   const [selectedRanges, setSelectedRanges] = useState<string[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string[]>([]);
   const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedPriceKey, setSelectedPriceKey] = useState<string>('');
   const [resultsCount, setResultsCount] = useState<number | null>(null);
-  
+
   // Date filter state: 'recent' | 'oldest' | 'specific'
   const [selectedDateFilter, setSelectedDateFilter] = useState<string>('specific');
   const [selectedSpecificDate, setSelectedSpecificDate] = useState<Date | null>(null);
@@ -64,7 +64,8 @@ export default function useAdvSearchLogic() {
   const [clearSignal, setClearSignal] = useState<number>(0);
 
   // ✅ RTK Query: lazy query para el contador de resultados
-  const [triggerGetOffers, { data: offersData, isLoading: isQueryLoading }] = useLazyGetOffersQuery();
+  const [triggerGetOffers, { data: offersData, isLoading: isQueryLoading }] =
+    useLazyGetOffersQuery();
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -82,7 +83,7 @@ export default function useAdvSearchLogic() {
     if (
       !newSearchQuery &&
       newRanges.length === 0 &&
-      newCity === '' &&
+      newCity.length === 0 &&
       newJobs.length === 0 &&
       newCategories.length === 0 &&
       newPriceRanges.length === 0
@@ -119,7 +120,7 @@ export default function useAdvSearchLogic() {
 
   const handleCityChange = (city: string) => {
     setSelectedCity((prev) => {
-      const newCity = prev === city ? '' : city;
+      const newCity = prev.includes(city) ? prev.filter((c) => c !== city) : [...prev, city];
       updateSearchOnStateChange({ newCity });
       return newCity;
     });
@@ -155,7 +156,7 @@ export default function useAdvSearchLogic() {
     // ✅ RTK Query: trigger query para obtener el total global
     triggerGetOffers({
       search: '',
-      filters: { range: [], city: '', category: [], tags: [], minPrice: null, maxPrice: null },
+      filters: { range: [], city: [], category: [], tags: [], minPrice: null, maxPrice: null },
       sortBy: 'recent',
       page: 1,
       limit: 1,
@@ -180,8 +181,14 @@ export default function useAdvSearchLogic() {
     const ranges = sp.getAll('range');
     if (ranges.length) setSelectedRanges(ranges);
 
-    const city = sp.get('city');
-    if (city != null) setSelectedCity(city);
+    const cityRaw = sp.get('city');
+    if (cityRaw != null) {
+      const cities = cityRaw
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (cities.length) setSelectedCity(cities);
+    }
 
     const categoriesFromAll = sp.getAll('category') || [];
     let urlCategory: string[] = [];
@@ -236,11 +243,15 @@ export default function useAdvSearchLogic() {
     const rating = sp.get('rating');
     if (rating != null) {
       const r = Number(rating);
-      if (!Number.isNaN(r)) setSelectedRating(r);
+      if (!Number.isNaN(r)) {
+        // Limitar el rating entre 1 y 5
+        const clampedRating = Math.min(5, Math.max(1, r));
+        setSelectedRating(clampedRating);
+      }
     }
 
     const shouldOpenFixer = ranges.length > 0;
-    const shouldOpenCiudad = !!city;
+    const shouldOpenCiudad = !!cityRaw;
     const shouldOpenTrabajo = !!(urlCategory && urlCategory.length);
     const shouldOpenCategorias = !!(urlTags && urlTags.length);
     const shouldOpenPrecio = !!(min || max);
@@ -263,11 +274,11 @@ export default function useAdvSearchLogic() {
     if (titleOnly) params.set('titleOnly', 'true');
     if (exactWords) params.set('exact', 'true');
     selectedRanges.forEach((r) => params.append('range', r));
-    if (selectedCity) params.set('city', selectedCity);
+    if (selectedCity.length) params.set('city', selectedCity.join(','));
     if (selectedJobs.length) params.set('category', selectedJobs.join(','));
     if (selectedTags.length) params.set('tags', selectedTags.join(','));
     const { minPrice, maxPrice } = parsePriceRange(selectedPriceKey);
-    
+
     if (selectedDateFilter === 'recent') {
       params.set('sortBy', 'recent');
     } else if (selectedDateFilter === 'oldest') {
@@ -280,10 +291,14 @@ export default function useAdvSearchLogic() {
     }
     if (minPrice != null) params.set('minPrice', String(minPrice));
     if (maxPrice != null) params.set('maxPrice', String(maxPrice));
-    if (selectedRating != null) params.set('rating', String(selectedRating));
+    // Limitar el rating entre 1 y 5 al hacer búsqueda
+    if (selectedRating != null) {
+      const clampedRating = Math.min(5, Math.max(1, selectedRating));
+      params.set('rating', String(clampedRating));
+    }
     params.set('page', '1');
     params.set('limit', '10');
-    
+
     if (typeof window !== 'undefined') {
       try {
         window.sessionStorage.setItem('fromAdv', 'true');
@@ -291,7 +306,7 @@ export default function useAdvSearchLogic() {
         // ignore
       }
       params.set('fromAdv', 'true');
-      
+
       try {
         const state = {
           search: searchQuery,
@@ -310,7 +325,7 @@ export default function useAdvSearchLogic() {
       } catch {
         // ignore
       }
-      
+
       window.location.href = `/resultsAdvSearch?${params.toString()}`;
     } else {
       params.set('fromAdv', 'true');
@@ -322,7 +337,7 @@ export default function useAdvSearchLogic() {
   useEffect(() => {
     triggerGetOffers({
       search: '',
-      filters: { range: [], city: '', category: [], tags: [], minPrice: null, maxPrice: null },
+      filters: { range: [], city: [], category: [], tags: [], minPrice: null, maxPrice: null },
       sortBy: 'recent',
       page: 1,
       limit: 1,

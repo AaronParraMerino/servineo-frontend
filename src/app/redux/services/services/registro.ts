@@ -1,8 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-const CONTROL_C_BASE = `${API_BASE}/api/controlC`;
-
-console.log("API_BASE:", API_BASE);
-console.log("CONTROL_C_BASE:", CONTROL_C_BASE);
+const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/signUp`;
 
 export interface User {
   id: string;
@@ -12,7 +8,7 @@ export interface User {
 }
 
 export interface GoogleAuthResponse {
-  status: "ok" | "firstTime" | "exists" | "error";
+  status: 'ok' | 'firstTime' | 'exists' | 'error';
   firstTime?: boolean;
   token?: string;
   user?: User;
@@ -24,17 +20,17 @@ export interface UbicacionResponse {
   message?: string;
 }
 
-/**
- * LOGIN CON GOOGLE
- * POST /api/controlC/google/auth
- */
-export async function enviarTokenGoogle(
-  token: string
-): Promise<GoogleAuthResponse> {
+export interface TelefonoResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+}
+
+export async function enviarTokenGoogle(token: string): Promise<GoogleAuthResponse> {
   try {
-    const res = await fetch(`${CONTROL_C_BASE}/google/auth`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch(`${BASE_URL}/google/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),
     });
 
@@ -44,7 +40,7 @@ export async function enviarTokenGoogle(
 
     return await res.json();
   } catch (error) {
-    console.error("Error al conectar con el backend (google/auth):", error);
+    console.error('Error al conectar con el backend:', error);
     throw error;
   }
 }
@@ -56,22 +52,16 @@ export async function enviarTokenGoogle(
  */
 export async function verificarSesionBackend(token: string) {
   try {
-    const res = await fetch(`${CONTROL_C_BASE}/google/verify`, {
-      method: "GET",
+    const res = await fetch(`${BASE_URL}/google/verify`, {
+      method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!res.ok) {
-      console.warn("google/verify devolvió status", res.status);
-      return { valid: false };
-    }
-
-    const data = await res.json();
-    return data;
+    if (!res.ok) throw new Error('Token inválido o expirado');
+    return await res.json();
   } catch (error) {
-    console.error("Error al verificar la sesión (google/verify):", error);
-    // No lanzamos error, solo indicamos sesión inválida
-    return { valid: false };
+    console.error('Error al verificar la sesión:', error);
+    throw error;
   }
 }
 
@@ -84,16 +74,15 @@ export async function enviarUbicacion(
   lng: number,
   direccion: string | null,
   departamento: string | null,
-  pais: string | null
+  pais: string | null,
 ): Promise<UbicacionResponse> {
-  const token = localStorage.getItem("servineo_token");
-
+  const token = localStorage.getItem('servineo_token');
   try {
-    const res = await fetch(`${CONTROL_C_BASE}/ubicacion`, {
-      method: "POST",
+    const res = await fetch(`${BASE_URL}/registrar/ubicacion`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}` : "",
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ lat, lng, direccion, departamento, pais }),
     });
@@ -104,10 +93,34 @@ export async function enviarUbicacion(
 
     return await res.json();
   } catch (error) {
-    console.error(
-      "Error al enviar la ubicación al backend (controlC/ubicacion):",
-      error
-    );
+    console.error('Error al enviar la ubicación al backend:', error);
+    throw error;
+  }
+}
+
+//telefono
+export async function enviarTelefono(telefono: string): Promise<TelefonoResponse> {
+  const token = localStorage.getItem('servineo_token');
+  try {
+    const res = await fetch(`${BASE_URL}/registrar/telefono`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ telefono }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      // Lanzar error con el mensaje del servidor
+      throw new Error(`Error ${res.status}: ${data.error || res.statusText}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error al enviar el teléfono al backend:', error);
     throw error;
   }
 }
@@ -119,21 +132,15 @@ export interface RegistroResponse {
   user?: User;
 }
 
-/**
- * REGISTRO MANUAL
- * POST /api/controlC/registro/manual
- */
 export async function enviarRegistroManual(
   name: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<RegistroResponse> {
-  console.log("Enviando registro manual a:", `${CONTROL_C_BASE}/registro/manual`);
-
   try {
-    const res = await fetch(`${CONTROL_C_BASE}/registro/manual`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch(`${BASE_URL}/registro/manual`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     });
 
@@ -150,7 +157,7 @@ export async function enviarRegistroManual(
 
     return await res.json();
   } catch (error) {
-    console.error("Error al registrar manualmente:", error);
+    console.error('Error al registrar manualmente:', error);
     throw error;
   }
 }

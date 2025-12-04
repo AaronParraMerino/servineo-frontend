@@ -1,25 +1,27 @@
-import type { Metadata } from "next";
-import "../globals.css";
-import "leaflet/dist/leaflet.css";
-import { ReduxProvider } from "../redux/ReduxProvider";
-import TopMenu from "@/Components/Navigation/TopMenu";
-import { ReactNode } from "react";
-import { notFound } from "next/navigation";
-import { NextIntlClientProvider } from "next-intl";
-import { TranslationButton } from "@/Components/Shared/TranslationButton";
-import BotonesFlotantes from "@/Components/ask-for-help/contenedor";
-import { AuthProvider } from "../lib/hooks/usoAutentificacion"; // lo tenías en el root
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import '../globals.css';
+import { roboto } from '../fonts';
+import 'leaflet/dist/leaflet.css';
+import { ReduxProvider } from '../redux/ReduxProvider';
+import TopMenu from '@/Components/Navigation/TopMenu';
+import { ReactNode } from 'react';
+import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
+import { TranslationButton } from '@/Components/Shared/TranslationButton';
+import BotonesFlotantes from '@/Components/ask_for_help/contenedor';
+import FooterSection from '@/Components/Home/Footer-section';
 
 
 // loaders de mensajes
 const messagesMap = {
-  en: () => import("../../../messages/en.json").then((m) => m.default),
-  es: () => import("../../../messages/es.json").then((m) => m.default),
+  en: () => import('../../../messages/en.json').then((mod) => mod.default),
+  es: () => import('../../../messages/es.json').then((mod) => mod.default),
 };
 
 // generar rutas estáticas /en y /es
 export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "es" }];
+  return [{ locale: 'en' }, { locale: 'es' }];
 }
 
 export const metadata: Metadata = {
@@ -53,20 +55,25 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   // 🚫 Aquí YA NO hay <html> ni <body>
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <ReduxProvider>
-        <AuthProvider>
-          <div className="text-black fixed bottom-2 right-2 z-[9999] flex flex-col items-center">
+    <html lang={locale} className={`${roboto.className}`} suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true}
+      >
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ReduxProvider>
+            <div className='text-black fixed bottom-7 left-7 z-9999'>
+              <BotonesFlotantes />
+            </div>
+            <div className=''>
+              <TopMenu />
+            </div>
+            {children}
             <TranslationButton />
-            <div className="-mt-10"></div>
-            <BotonesFlotantes />
-          </div>
-          <div>
-            <TopMenu />
-          </div>
-          {children}
-        </AuthProvider>
-      </ReduxProvider>
-    </NextIntlClientProvider>
+            <FooterSection />
+          </ReduxProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

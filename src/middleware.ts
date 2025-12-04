@@ -5,11 +5,9 @@ export default createMiddleware({
   locales: routing.locales,
   defaultLocale: routing.defaultLocale,
   localeDetection: true,
-  localeCookie: true
+  localeCookie: true,
 });
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|icons|img).*)'
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
