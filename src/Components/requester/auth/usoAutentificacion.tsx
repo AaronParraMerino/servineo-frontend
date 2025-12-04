@@ -18,12 +18,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const clearSession = () => {
-    localStorage.removeItem("servineo_token");
-    localStorage.removeItem("servineo_user");
-    setUser(null);
-  };
-
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem('servineo_user');
@@ -59,14 +53,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('servineo_token');
         localStorage.removeItem('servineo_user');
         setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkSession();
+      })
+      .finally(() => setLoading(false));
   }, []);
-
 
   useEffect(() => {
     if (user) {
