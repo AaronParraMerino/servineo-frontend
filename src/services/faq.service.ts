@@ -3,7 +3,7 @@ import { FAQ, FAQResponse } from '../types/faq.types';
 
 // Leemos SOLO lo que ya existe en el .env
 const RAW_API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 // Normalizamos:
 // - Si es "http://localhost:8000"      → "http://localhost:8000/api"
@@ -16,8 +16,6 @@ const API_BASE_URL = (() => {
   }
   return `${trimmed}/api/devon`;
 })();
-
-console.log('[FAQService] API_BASE_URL =', API_BASE_URL);
 
 export class FAQService {
   private baseURL: string;
