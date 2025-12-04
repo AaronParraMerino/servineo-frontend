@@ -12,6 +12,13 @@ import {
 import { FORUMCreateForm } from "@/Components/ask-for-help/FORUMCreateForm";
 import { FORUMThreadList } from "@/Components/ask-for-help/FORUMThreadList";
 
+// 👇 FUNCION PARA IGNORAR TILDES Y MAYÚSCULAS
+const normalize = (str: string | null | undefined) =>
+  (str || "")
+    .normalize("NFD") // separa letra + tilde
+    .replace(/[\u0300-\u036f]/g, "") // elimina las tildes
+    .toLowerCase(); // ignora mayúsculas
+
 export default function ForoDeUsuariosPage() {
   const router = useRouter();
 
@@ -49,12 +56,14 @@ export default function ForoDeUsuariosPage() {
   }, []);
 
   const filteredThreads = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = normalize(query.trim());
+
     return threads.filter((t) => {
+      const title = normalize(t.titulo);
+      const description = normalize(t.descripcion);
+
       const coincideTexto =
-        !q ||
-        t.titulo.toLowerCase().includes(q) ||
-        t.descripcion.toLowerCase().includes(q);
+        !q || title.includes(q) || description.includes(q);
 
       const coincideCategoria =
         categoriaFiltro === "todas" || t.categoria === categoriaFiltro;

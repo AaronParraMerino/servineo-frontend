@@ -100,7 +100,10 @@ export default function ForoDetallePage() {
             Comentarios ({comments.length})
           </h2>
 
-          <FORUMCommentsList comments={comments} />
+          <FORUMCommentsList
+            comments={comments}
+            requesterId={forum.authorId}
+          />
 
           <FORUMCommentForm
             value={newComment}

@@ -1,4 +1,3 @@
-// frontend/src/Components/ask_for_help/FORUMSearch.tsx
 "use client";
 
 import React from "react";

@@ -3,7 +3,22 @@ import { ForumThread, ForumWithComments } from "../types/forum.types";
 // Usamos SOLO lo que ya tienes en el .env:
 // NEXT_PUBLIC_API_URL=http://localhost:8000  (la última línea es la que manda)
 // Igual que en otros archivos de tu proyecto, le agregamos /api acá.
-const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
+const RAW_API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
+// Normalizamos:
+// - Si es "http://localhost:8000"      → "http://localhost:8000/api"
+// - Si algún día fuera "http://localhost:8000/api" → se queda igual
+const API_BASE_URL = (() => {
+  const trimmed = RAW_API_URL.replace(/\/+$/, '');
+
+  if (trimmed.endsWith('/api/devon')) {
+    return `${trimmed}/devon`;
+  }
+  return `${trimmed}/api/devon`;
+})();
+
+console.log('[FAQService] API_BASE_URL =', API_BASE_URL);
 
 // ---------- LISTAR FOROS ----------
 export async function listForums(): Promise<ForumThread[]> {

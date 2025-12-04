@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 const WhatsappBanner: React.FC = () => {
   // Número y mensaje (con Servineo visible en el texto)
-  const phoneNumber = "59178194834";
+  const phoneNumber = "59163924249";
   const message =
     "Servineo - Escríbenos tu problema para que la IA te ayude";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
@@ -27,7 +27,7 @@ const WhatsappBanner: React.FC = () => {
     setIsVerifying(true);
 
     try {
-      const response = await fetch(`${API_URL}/verify-captcha`, {
+      const response = await fetch(`${API_URL}/api/devon/verify-captcha`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
